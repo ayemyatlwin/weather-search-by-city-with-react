@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Source = () => {
+const Srce = () => {
   return (
     <h1 className='text-center text-sm text-gray-500'>
       source code 
@@ -10,4 +10,4 @@ const Source = () => {
   )
 }
 
-export default Source
+export default Srce
