@@ -4,4 +4,4 @@ This is a weather search app by city.
 
 
 
-- [API](https://openweathermap.org//README.md)
+- Open Weather Map [API](https://openweathermap.org)
