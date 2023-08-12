@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { TiWeatherCloudy } from "react-icons/ti";
+import DateTime from "./DateTime";
 
 const Weather = () => {
   const [temp, setTemp] = useState(null);
+  const [faraheit,setFaraheit]=useState(false)
   const [humidity,setHumidity]=useState(null);
   const [weather, setWeather] = useState([]);
   const [wind, setWind] = useState(null);
@@ -38,6 +40,7 @@ const Weather = () => {
             <TiWeatherCloudy />
           </i>
         </h1>
+        <DateTime/>
         <div className="shadow bg-white p-10 rounded-2xl">
           <div className="form-control ">
             <form onSubmit={formHandler} className="input-group bg-white">
@@ -56,17 +59,20 @@ const Weather = () => {
               <h1 className="pt-10 text-center text-3xl font-bold text-green-700 capitalize bg-white ">
                 {city}
               </h1>
-              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
+              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white capitalize">
                 {weather.description}
               </h1>
-              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
-                {temp}°C
+              <h1 className="pt-10 text-center text-3xl font-semibold text-green-800 bg-white">
+                {/* {Math.round(temp)}  */}
+                {faraheit==false ? `${Math.round(temp)}`:`${Math.round((temp*9/5)+32)}`}
+                
+                <a title="click to change celsius value" onClick={()=>setFaraheit(false)} className="cursor-pointer text-xl bg-white"> °C</a> | <a title="click to change faraheit value" onClick={()=>setFaraheit(true)} className="cursor-pointer text-xl bg-white">°F</a> 
               </h1>
               <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
-                {wind} km/h
+                <span className="text-sm text-gray-500 bg-white">Wind Speed </span> - {wind} km/h
               </h1>
               <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
-                {humidity}%
+                <span className="text-sm text-gray-500 bg-white">Humidity </span>- {humidity}%
               </h1>
               <img
                 src={`http://openweathermap.org/img/w/${weather.icon}.png`}
