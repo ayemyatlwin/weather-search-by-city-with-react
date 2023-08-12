@@ -6,7 +6,7 @@ import Srce from "./Srce";
 const App = () => {
   return (
     <>
-      <div className="container visible mx-auto h-screen">
+      <div className="container 2xl  mx-auto h-screen overflow-auto">
         <div className="row">
          <Weather />
          <Srce/>

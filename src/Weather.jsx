@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { TiWeatherCloudy } from "react-icons/ti";
 import DateTime from "./DateTime";
+import WeatherForecast from "./WeatherForecast";
+import DayUi from "./DayUi";
 
 const Weather = () => {
   const [temp, setTemp] = useState(null);
@@ -9,7 +11,9 @@ const Weather = () => {
   const [humidity,setHumidity]=useState(null);
   const [weather, setWeather] = useState([]);
   const [wind, setWind] = useState(null);
+  const [dt,setDt]=useState(null)
   const [city, SetCity] = useState("");
+
   console.log(city);
   const formHandler = (e) => {
     e.preventDefault();
@@ -24,6 +28,7 @@ const Weather = () => {
     setWeather(data.weather[0]);
     setWind(data.wind.speed);
     setHumidity(data.main.humidity)
+    setDt(data.dt)
   };
   console.log(temp);
   console.log(weather);
@@ -41,7 +46,7 @@ const Weather = () => {
           </i>
         </h1>
         <DateTime/>
-        <div className="shadow bg-white p-10 rounded-2xl">
+        <div className="shadow bg-white p-7 md:p-12 rounded-2xl">
           <div className="form-control ">
             <form onSubmit={formHandler} className="input-group bg-white">
               <input
@@ -54,31 +59,41 @@ const Weather = () => {
               </button>
             </form>
           </div>
-          {city !== "" ? (
+          {temp!==null ? (
             <div className="bg-white">
-              <h1 className="pt-10 text-center text-3xl font-bold text-green-700 capitalize bg-white ">
+              <div className="flex justify-between gap-7 md:gap-12 bg-white">
+                  <div className="flex-col">
+                  <h1 className="pt-10 text-center text-xl md:text-5xl font-extrabold text-green-700 capitalize bg-white ">
                 {city}
               </h1>
-              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white capitalize">
+              <h1 className="pt-5 text-center text-xl font-semibold text-green-800 bg-white capitalize">
                 {weather.description}
               </h1>
-              <h1 className="pt-10 text-center text-3xl font-semibold text-green-800 bg-white">
+                  </div>
+                  <div className="flex-col bg-white">
+                  <h1 className=" pt-10 text-center text-xl font-semibold text-green-800 bg-white">
+                <span className="text-sm text-gray-500 bg-white">Wind Speed </span> - {wind} km/h
+              </h1>
+              <h1 className="pt-5 text-center text-xl font-semibold text-green-800 bg-white">
+                <span className="text-sm text-gray-500 bg-white">Humidity </span>- {humidity}%
+              </h1>
+                
+                </div>
+              </div>
+             
+             <DayUi date={dt}/>
+              <img
+                src={`http://openweathermap.org/img/w/${weather.icon}.png`}
+                alt="image of weather"
+                className="mx-auto pt-5 w-20 bg-white"
+              />
+               <h1 className="py-5 text-center text-3xl font-semibold text-green-800 bg-white">
                 {/* {Math.round(temp)}  */}
                 {faraheit==false ? `${Math.round(temp)}`:`${Math.round((temp*9/5)+32)}`}
                 
                 <a title="click to change celsius value" onClick={()=>setFaraheit(false)} className="cursor-pointer text-xl bg-white"> °C</a> | <a title="click to change faraheit value" onClick={()=>setFaraheit(true)} className="cursor-pointer text-xl bg-white">°F</a> 
               </h1>
-              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
-                <span className="text-sm text-gray-500 bg-white">Wind Speed </span> - {wind} km/h
-              </h1>
-              <h1 className="pt-10 text-center text-xl font-semibold text-green-800 bg-white">
-                <span className="text-sm text-gray-500 bg-white">Humidity </span>- {humidity}%
-              </h1>
-              <img
-                src={`http://openweathermap.org/img/w/${weather.icon}.png`}
-                alt="image of weather"
-                className="mx-auto pt-10 w-20 bg-white"
-              />
+              <WeatherForecast cityName={city} date={dt}/>
             </div>
           ) : (
             <p className="pt-10 text-center text-xl font-bold text-green-700 bg-white">
